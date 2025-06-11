@@ -11,6 +11,9 @@ const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 const WEBHOOK_URL = process.env.WEBHOOK_URL;
 
+console.log(BOT_TOKEN, "BOTTOKEN")
+console.log(TELEGRAM_API, "TELEGRAM_API")
+
 // Route to set the Telegram webhook (run once)
 app.get('/setWebhook', async (req, res) => {
     try {
@@ -28,11 +31,13 @@ app.get('/setWebhook', async (req, res) => {
 // Webhook endpoint to handle POST requests from Telegram
 app.post('/webhook', async (req, res) => {
     try {
+        console.log("dss")
         if (req.headers['x-telegram-bot-api-secret-token'] !== process.env.WEBHOOK_SECRET) {
             return res.status(401).send('Invalid secret token');
         }
-
+    
         const update = req.body;
+        console.log("data", update)
         if (update.message && update.message.document) {
             const chatId = update.message.chat.id;
             const fileId = update.message.document.file_id;
